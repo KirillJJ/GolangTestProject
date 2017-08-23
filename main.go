@@ -1,3 +1,4 @@
+/*query example: localhost:8080/api/v1/distance/?from=samara&to=perm */
 package main
 
 import (
@@ -9,17 +10,16 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-const apiKey = "AIzaSyAJUvHqy4Yn3QN278toq0Wfg0GXfiLmUBo"
-const keyFrom = "from"
-const keyTo = "to"
-const okStatus = "OK"
+const ( 
+	apiKey = "AIzaSyAJUvHqy4Yn3QN278toq0Wfg0GXfiLmUBo"
+ 	keyFrom = "from"
+ 	keyTo = "to"
+ 	okStatus = "OK"
+ 	googleApiLink = "https://maps.googleapis.com/maps/api/distancematrix/json?"
+)
 
 type Result struct {
 	Distance string `json:"distance"`
-	Result string `json:"result"`
-}
-
-type BadResult struct {
 	Result string `json:"result"`
 }
 
@@ -56,7 +56,7 @@ func getDistance(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	client := http.Client{}
 
-	resp, err := client.Get("https://maps.googleapis.com/maps/api/distancematrix/json?" +
+	resp, err := client.Get( googleApiLink +
 		"origins=" + from +
 		"&destinations=" + to +
 		"&key" + apiKey)
